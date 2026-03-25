@@ -35,7 +35,8 @@
     const finalMessage = template
       .replace("{{product}}", productTitle)
       .replace("{{price}}", productPrice || "Consultar precio")
-      .replace("{{url}}", productUrl);
+      .replace("{{url}}", productUrl)
+      .replace(/\|/g, "\n");
 
     const message = encodeURIComponent(finalMessage);
 
