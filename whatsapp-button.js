@@ -1,5 +1,7 @@
 (function () {
   document.addEventListener("DOMContentLoaded", function () {
+    console.log("VERSION 3 LOADED");
+    
     // Avoid duplicate button
     if (document.getElementById("wa-button-custom")) return;
 
@@ -8,6 +10,7 @@
 
     // Get product info
     const productTitle =
+      document.querySelector("[data-product-title]")?.innerText ||
       document.querySelector("h1.product__title")?.innerText ||
       document.querySelector("h1")?.innerText ||
       "producto";
