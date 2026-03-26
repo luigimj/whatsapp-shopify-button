@@ -87,5 +87,8 @@
     
     // 🔥 SIEMPRE actualizar el link
     button.href = whatsappUrl;
+
+    console.log("FINAL MESSAGE:", finalMessage);
+    console.log("BUTTON UPDATED:", button.href);
   });
 })();
