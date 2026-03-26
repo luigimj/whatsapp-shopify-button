@@ -1,5 +1,5 @@
 (function () {
-  document.addEventListener("DOMContentLoaded", function () {
+  window.addEventListener("load", function () {
     console.log("VERSION 3 LOADED");
 
     // Detect product page
