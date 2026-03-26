@@ -1,21 +1,28 @@
 (function () {
   window.addEventListener("load", function () {
-    console.log("VERSION 4 LOADED");
+    console.log("WhatsApp Button Loaded");
 
     function waitForProductTitle(callback) {
-      const interval = setInterval(() => {
-        const title = document.querySelector("h1");
+      let lastTitle = "";
 
-        if (title && title.innerText && title.innerText !== "ProductDrop") {
+      const interval = setInterval(() => {
+        const el = document.querySelector("h1");
+        const currentTitle = el?.innerText?.trim();
+
+        if (!currentTitle) return;
+
+        // Wait until title stabilizes
+        if (currentTitle === lastTitle) {
           clearInterval(interval);
           callback();
         }
-      }, 100);
+
+        lastTitle = currentTitle;
+      }, 150);
     }
 
     function initWhatsAppButton() {
-
-      // Detect product page
+      // Ensure it's a product page
       if (!document.querySelector('form[action*="/cart/add"]')) return;
 
       // Get product info
@@ -43,8 +50,9 @@
 
       let template =
         config.messageTemplate ||
-        `Hola, estoy interesado en este producto:\n{{product}}\nPrecio: {{price}}\n{{url}}`;
+        "Hola, estoy interesado en este producto:|{{product}}|Precio: {{price}}|{{url}}";
 
+      // Build message
       const finalMessage = template
         .replace("{{product}}", productTitle)
         .replace("{{price}}", productPrice || "Consultar precio")
@@ -55,10 +63,9 @@
 
       const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
 
-      // Avoid duplicate button
+      // Create or update button
       let button = document.getElementById("wa-button-custom");
 
-      // Create button
       if (!button) {
         button = document.createElement("a");
         button.id = "wa-button-custom";
@@ -71,7 +78,7 @@
           </span>
         `;
 
-        // Styles (solo una vez)
+        // Styles
         button.style.position = "fixed";
         button.style.bottom = "20px";
         button.style.left = "50%";
@@ -87,6 +94,7 @@
         button.style.zIndex = "9999";
         button.style.maxWidth = "90%";
 
+        // Hover
         button.addEventListener("mouseover", () => {
           button.style.backgroundColor = "#1ebe5d";
         });
@@ -98,9 +106,10 @@
         document.body.appendChild(button);
       }
 
-      // 🔥 SIEMPRE actualizar el link
+      // Always update link
       button.href = whatsappUrl;
 
+      // Debug (optional)
       console.log("FINAL MESSAGE:", finalMessage);
       console.log("BUTTON UPDATED:", button.href);
     }
