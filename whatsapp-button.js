@@ -37,7 +37,10 @@
         document.querySelector("h1")?.innerText ||
         "producto";
 
-      const productUrl = window.location.href;
+      const productUrl =
+        window.location.origin +
+        window.location.pathname +
+        window.location.search; // preserves ?variant=XXXX
 
       let productPrice = "";
       const priceElement =
